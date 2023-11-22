@@ -27237,7 +27237,7 @@ const MainView = ()=>{
     }, undefined);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: movies.map((movie)=>{
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCard.MovieCard), {
+            return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCard.MovieCard), {
                 movie: movie,
                 onMovieClick: (newSelectedMovie)=>{
                     setSelectedMovie(newSelectedMovie);
@@ -27245,7 +27245,7 @@ const MainView = ()=>{
             }, movie.id, false, {
                 fileName: "src/components/main-view/main-view.jsx",
                 lineNumber: 29,
-                columnNumber: 17
+                columnNumber: 24
             }, undefined);
         })
     }, void 0, false, {
