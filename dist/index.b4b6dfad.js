@@ -27177,62 +27177,104 @@ var _movieView = require("../movie-view/movie-view");
 var _s = $RefreshSig$();
 const MainView = ()=>{
     _s();
-    const [movies, setMovies] = (0, _react.useState)([
-        {
-            id: 1,
-            title: "Jurassic Park",
-            description: "A wealthy entrepreneur secretly creates a theme park featuring living dinosaurs drawn from prehistoric DNA.",
-            genre: "Action",
-            image: "https://m.media-amazon.com/images/M/MV5BMjM2MDgxMDg0Nl5BMl5BanBnXkFtZTgwNTM2OTM5NDE@._V1_FMjpg_UX1000_.jpg",
-            director: "Steven Spielberg"
-        },
-        {
-            id: 2,
-            title: "Pulp Fiction",
-            description: "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-            genre: "Drama",
-            image: "https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg",
-            director: "Quentin Tarantino"
-        },
-        {
-            id: 3,
-            title: "Inception",
-            description: "A thief who enters the dreams of others to steal their secrets must plant an idea into the mind of a CEO.",
-            genre: "Science Fiction",
-            image: "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_FMjpg_UX1000_.jpg",
-            director: "Christopher Nolan"
-        },
-        {
-            id: 4,
-            title: "E.T. the Extra-Terrestrial",
-            description: "A troubled child summons the courage to help a friendly alien escape Earth and return to his home world.",
-            genre: "Action",
-            image: "https://m.media-amazon.com/images/M/MV5BMTQ2ODFlMDAtNzdhOC00ZDYzLWE3YTMtNDU4ZGFmZmJmYTczXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_FMjpg_UX1000_.jpg",
-            director: "Steven Spielberg"
-        },
-        {
-            id: 5,
-            title: "Django Unchained",
-            description: "With the help of a German bounty hunter, a freed slave sets out to rescue his wife from a brutal Mississippi plantation owner.",
-            genre: "Drama",
-            image: "https://m.media-amazon.com/images/M/MV5BMjIyNTQ5NjQ1OV5BMl5BanBnXkFtZTcwODg1MDU4OA@@._V1_FMjpg_UX1000_.jpg",
-            director: "Quentin Tarantino"
-        }
-    ]);
-    const [selectedMovie, setSelectedMovie] = (0, _react.useState)(null);
-    if (selectedMovie) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieView.MovieView), {
-        movie: selectedMovie,
-        onBackClick: ()=>setSelectedMovie(null)
-    }, void 0, false, {
-        fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 18,
-        columnNumber: 13
-    }, undefined);
+    const [movies, setMovies] = (0, _react.useState)([]);
+    (0, _react.useEffect)(()=>{
+        fetch("https://my-movies-flix1123-ddfeafac7a4b.herokuapp.com/movies").then((response)=>response.json()).then((data)=>{
+            console.log(data);
+            const moviesFromApi = data.map((movie)=>{
+                return {
+                    id: movie.id,
+                    Title: movie.Title,
+                    ImagePath: movie.ImagePath,
+                    Description: movie.Description,
+                    Year: movie.Year,
+                    Genre: {
+                        Name: movie.Genre.Name
+                    },
+                    Director: {
+                        Name: movie.Director.Name
+                    }
+                };
+            });
+            setMovies(moviesFromApi);
+        });
+    }, []);
+    const [selectedMovie, setSelectedMovie] = (0, _react.useState)([]);
+    if (selectedMovie) {
+        let similarMovies = movies.filter((movie)=>{
+            return movie.id !== selectedMovie.id && movie.Genre.Name === selectedMovie.Genre.Name;
+        });
+        if (similarMovies.length === 0) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+            children: [
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieView.MovieView), {
+                    movie: selectedMovie,
+                    onBackClick: ()=>setSelectedMovie(null)
+                }, void 0, false, {
+                    fileName: "src/components/main-view/main-view.jsx",
+                    lineNumber: 41,
+                    columnNumber: 21
+                }, undefined),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
+                    fileName: "src/components/main-view/main-view.jsx",
+                    lineNumber: 41,
+                    columnNumber: 99
+                }, undefined),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                    children: "Similar Movies"
+                }, void 0, false, {
+                    fileName: "src/components/main-view/main-view.jsx",
+                    lineNumber: 42,
+                    columnNumber: 21
+                }, undefined),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                    children: "There are no similar movies."
+                }, void 0, false, {
+                    fileName: "src/components/main-view/main-view.jsx",
+                    lineNumber: 43,
+                    columnNumber: 21
+                }, undefined)
+            ]
+        }, void 0, true);
+        else return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+            children: [
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieView.MovieView), {
+                    movie: selectedMovie,
+                    onBackClick: ()=>setSelectedMovie(null)
+                }, void 0, false, {
+                    fileName: "src/components/main-view/main-view.jsx",
+                    lineNumber: 49,
+                    columnNumber: 21
+                }, undefined),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
+                    fileName: "src/components/main-view/main-view.jsx",
+                    lineNumber: 49,
+                    columnNumber: 99
+                }, undefined),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                    children: "Similar Movies"
+                }, void 0, false, {
+                    fileName: "src/components/main-view/main-view.jsx",
+                    lineNumber: 50,
+                    columnNumber: 21
+                }, undefined),
+                similarMovies.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCard.MovieCard), {
+                        movie: movie,
+                        onMovieClick: (newSelectedMovie)=>{
+                            setSelectedMovie(newSelectedMovie);
+                        }
+                    }, movie.id, false, {
+                        fileName: "src/components/main-view/main-view.jsx",
+                        lineNumber: 52,
+                        columnNumber: 25
+                    }, undefined))
+            ]
+        }, void 0, true);
+    }
     if (movies.length === 0) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: "The list is empty!"
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 23,
+        lineNumber: 66,
         columnNumber: 16
     }, undefined);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27244,17 +27286,17 @@ const MainView = ()=>{
                 }
             }, movie.id, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 29,
+                lineNumber: 72,
                 columnNumber: 24
             }, undefined);
         })
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 27,
+        lineNumber: 70,
         columnNumber: 9
     }, undefined);
 };
-_s(MainView, "RLRTC7mVEkbMb0X3RtI493/OOII=");
+_s(MainView, "4+y3X6HTE4+s6Lk7uTBwdt0AQAY=");
 _c = MainView;
 var _c;
 $RefreshReg$(_c, "MainView");
