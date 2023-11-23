@@ -5,6 +5,8 @@ import { MovieView } from "../movie-view/movie-view";
 export const MainView = () => {
     const [movies, setMovies] = useState([]);
 
+    const [selectedMovie, setSelectedMovie] = useState(null);
+
     useEffect(() => {
         fetch("https://my-movies-flix1123-ddfeafac7a4b.herokuapp.com/movies")
             .then((response) => response.json())
@@ -13,7 +15,7 @@ export const MainView = () => {
                 const moviesFromApi = data.map((movie) => {
                     return {
                         _id: movie._id,
-                        Title: movie.Title,
+                        Title: movie.title,
                         ImagePath: movie.ImagePath,
                         Description: movie.Description,
                         Year: movie.Year,
@@ -29,37 +31,10 @@ export const MainView = () => {
             });
     }, []);
 
-    const [selectedMovie, setSelectedMovie] = useState([]);
-
     if (selectedMovie) {
-        let similarMovies = movies.filter((movie) => {
-            return movie._id == selectedMovie.id && movie.Genre.Name === selectedMovie.Genre.Name;
-        });
-        if (similarMovies.length === 0) {
-            return (
-                <>
-                    <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} /><br />
-                    <h2>Similar Movies</h2>
-                    <p>There are no similar movies.</p>
-                </>
-            );
-        } else {
-            return (
-                <>
-                    <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)} /><br />
-                    <h2>Similar Movies</h2>
-                    {similarMovies.map((movie) => (
-                        <MovieCard
-                            key={movie._id}
-                            movie={movie}
-                            onMovieClick={(newSelectedMovie) => {
-                                setSelectedMovie(newSelectedMovie);
-                            }}
-                        />
-                    ))}
-                </>
-            );
-        }
+        return (
+            <MovieView book={selectedMovie} onBackClick={() => setSelectedMovie(null)} />
+        );
     }
 
     if (movies.length === 0) {
