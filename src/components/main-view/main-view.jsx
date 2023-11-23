@@ -12,7 +12,7 @@ export const MainView = () => {
                 console.log(data);
                 const moviesFromApi = data.map((movie) => {
                     return {
-                        id: movie.id,
+                        _id: movie._id,
                         Title: movie.Title,
                         ImagePath: movie.ImagePath,
                         Description: movie.Description,
@@ -33,7 +33,7 @@ export const MainView = () => {
 
     if (selectedMovie) {
         let similarMovies = movies.filter((movie) => {
-            return movie.id !== selectedMovie.id && movie.Genre.Name === selectedMovie.Genre.Name;
+            return movie._id == selectedMovie.id && movie.Genre.Name === selectedMovie.Genre.Name;
         });
         if (similarMovies.length === 0) {
             return (
@@ -50,7 +50,7 @@ export const MainView = () => {
                     <h2>Similar Movies</h2>
                     {similarMovies.map((movie) => (
                         <MovieCard
-                            key={movie.id}
+                            key={movie._id}
                             movie={movie}
                             onMovieClick={(newSelectedMovie) => {
                                 setSelectedMovie(newSelectedMovie);
@@ -69,7 +69,7 @@ export const MainView = () => {
     return (
         <div>
             {movies.map((movie) => {
-                return < MovieCard key={movie.id} movie={movie} onMovieClick={(newSelectedMovie) => {
+                return < MovieCard key={movie._id} movie={movie} onMovieClick={(newSelectedMovie) => {
                     setSelectedMovie(newSelectedMovie);
                 }} />
             })}
