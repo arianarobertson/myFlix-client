@@ -1,16 +1,70 @@
+import React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-export const MovieCard = ({ movie, onMovieClick }) => {
+export const MovieCard = ({ movie, isFavorite, user, token }) => {
+    const handleToggleFavorite = (movieId) => {
+        if (user.FavoriteMovies.includes(movieId)) {
+            //Remove from favorites
+            deleteUserFavorites(movieId)
+        } else {
+            //Add to favorites
+            addUserFavorites(movieId)
+        }
+    };
+
+    const deleteUserFavorites = (movieId) => {
+        fetch(`https://my-movies-flix1123-ddfeafac7a4b.herokuapp.com/users/${user.Username}/favorites/${movieId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+        }).then((response) => response.json())
+            .then((data) => {
+                console.log("Delete favorite response: ", data);
+                localStorage.setItem("user", JSON.stringify(data));
+            })
+            .catch((e) => {
+                alert("Something went wrong");
+            });
+    }
+
+    const addUserFavorites = (movieId) => {
+        fetch(`https://my-movies-flix1123-ddfeafac7a4b.herokuapp.com/users/${user.Username}/favorites/${movieId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+        }).then((response) => response.json())
+            .then((data) => {
+                console.log("Add favorite response: ", data);
+                localStorage.setItem("user", JSON.stringify(data));
+            })
+            .catch((e) => {
+                alert("Something went wrong");
+            });
+    }
     return (
         <Card className="h-100">
             <Card.Img variant="top" src={movie.ImagePath} alt={movie.title} />
             <Card.Body>
                 <Card.Title>{movie.Title}</Card.Title>
                 <Card.Text>{movie.Description}</Card.Text>
-                <Button onClick={() => onMovieClick(movie)}
-                    variant="link">
-                    Open
+                <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
+                    <Button variant="link">
+                        See more
+                    </Button>
+                </Link>
+                <Button
+                    variant={isFavorite ? "danger" : "primary"}
+                    onClick={() => handleToggleFavorite(movie._id)}
+                >
+                    {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
                 </Button>
             </Card.Body>
         </Card>
@@ -28,5 +82,7 @@ MovieCard.propTypes = {
         genre: PropTypes.string,
         director: PropTypes.string
     }).isRequired,
-    onMovieClick: PropTypes.func.isRequired
+    // onToggleFavorite: PropTypes.func.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    // handleToggleFavorite: PropTypes.isRequired,
 };
