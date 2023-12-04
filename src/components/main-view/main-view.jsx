@@ -22,7 +22,7 @@ export const MainView = () => {
     // const [movies, setMovies] = useState([]);
     const [favorites, setFavorites] = useState([]);
     const [favoriteMovies, setFavoriteMovies] = useState([]);
-    const movies = useSelector((state) => state.movies);
+    const movies = useSelector((state) => state.movies.list);
     const user = useSelector((state) => state.user);
 
     const dispatch = useDispatch();
@@ -133,15 +133,7 @@ export const MainView = () => {
                                     <>
                                         {movies.map((movie) => (
                                             <Col className="mb-5" key={movie._id} md={3}>
-                                                <MovieCard
-                                                    movie={movie}
-                                                    user={user}
-                                                    token={token}
-                                                    // onToggleFavorite={handleToggleFavorite}
-                                                    isFavorite={user.FavoriteMovies.includes(movie._id)}
-                                                // handleToggleFavorite={user.FavoriteMovies.includes(movie._id)}
-                                                // toggleFavorite={handleToggleFavorite}
-                                                />
+                                                <MoviesList />
                                             </Col>
                                         ))}
                                     </>
