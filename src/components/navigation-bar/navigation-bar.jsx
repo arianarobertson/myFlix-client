@@ -1,10 +1,12 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { Link, Form } from "react-router-dom";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux"; import { setUser } from "../../redux/reducers/user";
 
 
-export const NavigationBar = ({ user, onLoggedOut, onSearch }) => {
-
+export const NavigationBar = ({ }) => {
+    const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
 
     return (
         <Navbar className="my-navbar shadow-lg ">
@@ -87,7 +89,8 @@ export const NavigationBar = ({ user, onLoggedOut, onSearch }) => {
                     <>
                         <Nav.Link className="nav-link" as={Link} to="/">Home</Nav.Link>
                         <Nav.Link className="nav-link" as={Link} to="/profile">My Profile</Nav.Link>
-                        <Nav.Link className="nav-link" onClick={onLoggedOut}>Logout</Nav.Link>
+                        <Nav.Link onClick={() => dispatch(setUser(null))}> Logout
+                        </Nav.Link>
                     </>
                 )}
 

@@ -10,15 +10,22 @@ import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { Navigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setMovies } from "../../redux/reducers/movies";
+import { setUser } from "../../redux/reducers/user";
 
 export const MainView = () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
-    const [user, setUser] = useState(storedUser ? storedUser : null);
+    // const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
-    const [movies, setMovies] = useState([]);
+    // const [movies, setMovies] = useState([]);
     const [favorites, setFavorites] = useState([]);
     const [favoriteMovies, setFavoriteMovies] = useState([]);
+    const movies = useSelector((state) => state.movies);
+    const user = useSelector((state) => state.user);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!token) {
@@ -43,19 +50,19 @@ export const MainView = () => {
                         }
                     };
                 });
-                setMovies(moviesFromApi);
+                dispatch(setMovies(moviesFromApi));
             });
     }, [token]);
 
     return (
         <BrowserRouter>
             <NavigationBar
-                user={user}
-                onLoggedOut={() => {
-                    setUser(null);
-                    setToken(null);
-                    localStorage.clear();
-                }}
+            // user={user}
+            // onLoggedOut={() => {
+            //     setUser(null);
+            //     setToken(null);
+            //     localStorage.clear();
+            // }}
             />
             <Row className="justify-content-md-center">
                 <Routes>
@@ -82,10 +89,10 @@ export const MainView = () => {
                                 ) : (
                                     <Col md={4}>
                                         <LoginView
-                                            onLoggedIn={(user, token) => {
-                                                setUser(user);
-                                                setToken(token);
-                                            }}
+                                        // onLoggedIn={(user, token) => {
+                                        //     setUser(user);
+                                        //     setToken(token);
+                                        // }}
                                         />
                                     </Col>
                                 )}
@@ -103,7 +110,7 @@ export const MainView = () => {
                                 ) : (
                                     <Col md={8}>
                                         <MovieView
-                                            movies={movies}
+                                            // movies={movies}
                                             user={user}
                                             token={token}
                                             // onToggleFavorite={handleToggleFavorite}
