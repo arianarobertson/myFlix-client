@@ -10,9 +10,8 @@ import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { Navigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { setMovies } from "../../redux/reducers/movies";
-import { setUser } from "../../redux/reducers/user";
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 export const MainView = () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -22,10 +21,8 @@ export const MainView = () => {
     // const [movies, setMovies] = useState([]);
     const [favorites, setFavorites] = useState([]);
     const [favoriteMovies, setFavoriteMovies] = useState([]);
-    const movies = useSelector((state) => state.movies.list);
-    const user = useSelector((state) => state.user);
-
-    const dispatch = useDispatch();
+    const [filteredMovies, setFilteredMovies] = useState([]);
+    const [searchText, setSearchText] = useState("");
 
     useEffect(() => {
         if (!token) {
@@ -50,9 +47,30 @@ export const MainView = () => {
                         }
                     };
                 });
-                dispatch(setMovies(moviesFromApi));
+                setMovies(moviesFromApi);
+                setFilteredMovies(moviesFromApi);
             });
     }, [token]);
+
+    useEffect(() => {
+        console.log(searchText)
+        if (searchText) {
+            onInputChange()
+        } else {
+            setFilteredMovies(movies)
+        }
+
+    }, [searchText])
+
+    // Filter movies
+    const onInputChange = () => {
+        const filters = movies.filter(
+            (movie) => {
+                return movie.Title.toUpperCase().includes(searchText.toUpperCase());
+            }
+        );
+        setFilteredMovies(filters)
+    }
 
     return (
         <BrowserRouter>
@@ -64,6 +82,15 @@ export const MainView = () => {
             //     localStorage.clear();
             // }}
             />
+            <InputGroup className="mb-3">
+                <Form.Control
+                    onChange={(e) => setSearchText(e.target.value)}
+                    placeholder="Search Movie"
+                    aria-label="Search Movie"
+                    aria-describedby="basic-addon2"
+                />
+            </InputGroup>
+
             <Row className="justify-content-md-center">
                 <Routes>
                     <Route
@@ -131,7 +158,7 @@ export const MainView = () => {
                                     <Col>The list is empty!</Col>
                                 ) : (
                                     <>
-                                        {movies.map((movie) => (
+                                        {filteredMovies.map((movie) => (
                                             <Col className="mb-5" key={movie._id} md={3}>
                                                 <MoviesList />
                                             </Col>
