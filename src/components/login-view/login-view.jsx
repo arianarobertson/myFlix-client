@@ -32,9 +32,9 @@ export const LoginView = ({ onLoggedIn }) => {
                     alert("No such user");
                 }
             })
-            .catch((e) => {
-                alert("Something went wrong");
-            });
+        // .catch((e) => {
+        //     alert("Something went wrong");
+        // });
     };
 
     return (
