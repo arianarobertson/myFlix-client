@@ -16,9 +16,9 @@ import InputGroup from 'react-bootstrap/InputGroup';
 export const MainView = () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
-    // const [user, setUser] = useState(storedUser ? storedUser : null);
+    const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
-    // const [movies, setMovies] = useState([]);
+    const [movies, setMovies] = useState([]);
     const [favorites, setFavorites] = useState([]);
     const [favoriteMovies, setFavoriteMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
@@ -75,12 +75,12 @@ export const MainView = () => {
     return (
         <BrowserRouter>
             <NavigationBar
-            // user={user}
-            // onLoggedOut={() => {
-            //     setUser(null);
-            //     setToken(null);
-            //     localStorage.clear();
-            // }}
+                user={user}
+                onLoggedOut={() => {
+                    setUser(null);
+                    setToken(null);
+                    localStorage.clear();
+                }}
             />
             <InputGroup className="mb-3">
                 <Form.Control
@@ -137,7 +137,7 @@ export const MainView = () => {
                                 ) : (
                                     <Col md={8}>
                                         <MovieView
-                                            // movies={movies}
+                                            movies={movies}
                                             user={user}
                                             token={token}
                                             // onToggleFavorite={handleToggleFavorite}
@@ -160,7 +160,7 @@ export const MainView = () => {
                                     <>
                                         {filteredMovies.map((movie) => (
                                             <Col className="mb-5" key={movie._id} md={3}>
-                                                <MoviesList />
+                                                <MovieCard movie={movie} user={user} token={token} setUser={setUser} favorites={favorites} />
                                             </Col>
                                         ))}
                                     </>

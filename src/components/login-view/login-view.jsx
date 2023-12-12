@@ -1,12 +1,10 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useDispatch } from "react-redux";
 
 export const LoginView = ({ onLoggedIn }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const dispatch = useDispatch();
 
     const handleSubmit = (event) => {
         // this prevents the default behavior of the form which is to reload the entire page
@@ -29,8 +27,6 @@ export const LoginView = ({ onLoggedIn }) => {
                 if (data.user) {
                     localStorage.setItem("user", JSON.stringify(data.user));
                     localStorage.setItem("token", data.token);
-                    dispatch(setUserProfile(data.user));
-                    dispatch(setToken(data.token));
                     // onLoggedIn(data.user, data.token);
                 } else {
                     alert("No such user");
