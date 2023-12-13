@@ -116,10 +116,10 @@ export const MainView = () => {
                                 ) : (
                                     <Col md={4}>
                                         <LoginView
-                                        // onLoggedIn={(user, token) => {
-                                        //     setUser(user);
-                                        //     setToken(token);
-                                        // }}
+                                            onLoggedIn={(user, token) => {
+                                                setUser(user);
+                                                setToken(token);
+                                            }}
                                         />
                                     </Col>
                                 )}
@@ -160,7 +160,13 @@ export const MainView = () => {
                                     <>
                                         {filteredMovies.map((movie) => (
                                             <Col className="mb-5" key={movie._id} md={3}>
-                                                <MovieCard movie={movie} user={user} token={token} setUser={setUser} favorites={favorites} />
+                                                <MovieCard
+                                                    movie={movie}
+                                                    user={user}
+                                                    token={token}
+                                                    setUser={setUser}
+                                                    favorites={favorites}
+                                                    isFavorite={user?.FavoriteMovies?.includes(movie._id) || false} />
                                             </Col>
                                         ))}
                                     </>

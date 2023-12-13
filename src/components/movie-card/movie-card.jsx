@@ -3,10 +3,12 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-export const MovieCard = ({ movie, user, isFavorite, token }) => {
-    const [isFavorite, setFavorite] = useState(user.Favorites.includes(movie._id));
+export const MovieCard = ({ movie, user, token, setUser }) => {
+    const [isFavorite, setFavorite] = useState(
+        user?.FavoriteMovies?.includes(movie._id) || false);
+
     const handleToggleFavorite = (movieId) => {
         if (user.FavoriteMovies.includes(movieId)) {
             //Remove from favorites
@@ -29,7 +31,7 @@ export const MovieCard = ({ movie, user, isFavorite, token }) => {
                 console.log("Delete favorite response: ", data);
                 localStorage.setItem("user", JSON.stringify(data));
                 setUser(data);
-                setFavorite(false);
+                setFavorite((prevFavorite) => !prevFavorite);
             })
             .catch((e) => {
                 alert("Something went wrong");
@@ -48,7 +50,7 @@ export const MovieCard = ({ movie, user, isFavorite, token }) => {
                 console.log("Add favorite response: ", data);
                 localStorage.setItem("user", JSON.stringify(data));
                 setUser(data);
-                setFavorite(true);
+                setFavorite((prevFavorite) => !prevFavorite);
             })
             .catch((e) => {
                 alert("Something went wrong");
