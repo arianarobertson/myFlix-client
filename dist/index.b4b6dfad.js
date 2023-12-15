@@ -27442,12 +27442,26 @@ var _propTypes = require("prop-types");
 var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
 var _reactBootstrap = require("react-bootstrap");
 var _reactRouterDom = require("react-router-dom");
-const MovieCard = ({ movie, isFavorite, user, token })=>{
+var _s = $RefreshSig$();
+const MovieCard = ({ movie, user, token })=>{
+    _s();
+    const [isFavorite, setFavorite] = (0, _react.useState)(user?.FavoriteMovies?.includes(movie._id) || false);
+    (0, _react.useEffect)(()=>{
+        setFavorite(user?.FavoriteMovies?.includes(movie._id) || false);
+    }, [
+        user,
+        movie
+    ]);
     const handleToggleFavorite = (movieId)=>{
-        if (user.FavoriteMovies.includes(movieId)) //Remove from favorites
-        deleteUserFavorites(movieId);
-        else //Add to favorites
-        addUserFavorites(movieId);
+        if (user.FavoriteMovies.includes(movieId)) {
+            //Remove from favorites
+            deleteUserFavorites(movieId);
+            setFavorite(false);
+        } else {
+            //Add to favorites
+            addUserFavorites(movieId);
+            setFavorite(true);
+        }
     };
     const deleteUserFavorites = (movieId)=>{
         fetch(`https://my-movies-flix1123-ddfeafac7a4b.herokuapp.com/users/${user.Username}/favorites/${movieId}`, {
@@ -27486,7 +27500,7 @@ const MovieCard = ({ movie, isFavorite, user, token })=>{
                 alt: movie.title
             }, void 0, false, {
                 fileName: "src/components/movie-card/movie-card.jsx",
-                lineNumber: 54,
+                lineNumber: 62,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Body, {
@@ -27495,14 +27509,14 @@ const MovieCard = ({ movie, isFavorite, user, token })=>{
                         children: movie.Title
                     }, void 0, false, {
                         fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 56,
+                        lineNumber: 64,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
                         children: movie.Description
                     }, void 0, false, {
                         fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 57,
+                        lineNumber: 65,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -27512,12 +27526,12 @@ const MovieCard = ({ movie, isFavorite, user, token })=>{
                             children: "See more"
                         }, void 0, false, {
                             fileName: "src/components/movie-card/movie-card.jsx",
-                            lineNumber: 59,
+                            lineNumber: 67,
                             columnNumber: 21
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 58,
+                        lineNumber: 66,
                         columnNumber: 17
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
@@ -27526,22 +27540,23 @@ const MovieCard = ({ movie, isFavorite, user, token })=>{
                         children: isFavorite ? "Remove from Favorites" : "Add to Favorites"
                     }, void 0, false, {
                         fileName: "src/components/movie-card/movie-card.jsx",
-                        lineNumber: 63,
+                        lineNumber: 71,
                         columnNumber: 17
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/movie-card/movie-card.jsx",
-                lineNumber: 55,
+                lineNumber: 63,
                 columnNumber: 13
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/movie-card/movie-card.jsx",
-        lineNumber: 53,
+        lineNumber: 61,
         columnNumber: 9
     }, undefined);
 };
+_s(MovieCard, "Xnci233Y+lc/wvOgH9dQVff+GTY=");
 _c = MovieCard;
 // define all the props constraints for the MovieCard
 MovieCard.propTypes = {
